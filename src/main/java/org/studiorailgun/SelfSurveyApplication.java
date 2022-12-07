@@ -6,9 +6,11 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Options;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 @SpringBootApplication
-public class SelfSurveyApplication {
+public class SelfSurveyApplication extends SpringBootServletInitializer {
 
 	public static String username = "";
 	public static String password = "";
@@ -35,6 +37,11 @@ public class SelfSurveyApplication {
 
 		//start real app
 		SpringApplication.run(SelfSurveyApplication.class, args);
+	}
+
+	@Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+		return builder.sources(SelfSurveyApplication.class);
 	}
 
 }
