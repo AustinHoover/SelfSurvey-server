@@ -19,7 +19,7 @@ public class SQLiteDataSource {
     public DataSource dataSource() {
         DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
         dataSourceBuilder.driverClassName("org.sqlite.JDBC");
-        dataSourceBuilder.url("jdbc:sqlite:selfsurvey.db");
+        dataSourceBuilder.url("jdbc:sqlite:" + System.getProperty("catalina.home") + "/db/selfsurvey.db");
         dataSourceBuilder.type(org.sqlite.SQLiteDataSource.class);
         return dataSourceBuilder.build();   
     }
