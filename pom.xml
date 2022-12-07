@@ -10,9 +10,10 @@
 	</parent>
 	<groupId>org.studiorailgun</groupId>
 	<artifactId>self-survey</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<name>self-survey</name>
 	<description>Self Survey BE Service</description>
+	<packaging>war</packaging>
 
 	<properties>
 		<java.version>11</java.version>
