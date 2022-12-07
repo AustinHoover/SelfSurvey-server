@@ -1,13 +1,18 @@
 package org.studiorailgun;
 
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.DefaultParser;
-import org.apache.commons.cli.Options;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.context.event.EventListener;
+import org.studiorailgun.config.Config;
+
+import com.google.gson.Gson;
 
 @SpringBootApplication
 public class SelfSurveyApplication extends SpringBootServletInitializer {
@@ -16,32 +21,30 @@ public class SelfSurveyApplication extends SpringBootServletInitializer {
 	public static String password = "";
 
 	public static void main(String[] args) throws Throwable {
-		//parse cli options
-
-		// create Options object
-		Options options = new Options();
-		// add t option
-		options.addOption("u", true, "username");
-		options.addOption("p", true, "password");
-		//actual parser
-		CommandLineParser parser = new DefaultParser();
-		CommandLine cmd = parser.parse(options, args);
-		if(cmd.hasOption("u") && cmd.hasOption("p")){
-			username = cmd.getOptionValue("u");
-			password = cmd.getOptionValue("p");
-		} else {
-			System.err.println("Error, need to include username and password flags");
-			System.exit(1);
-		}
-
 
 		//start real app
 		SpringApplication.run(SelfSurveyApplication.class, args);
 	}
 
+	// @EventListener(ApplicationReadyEvent.class)
+	// public void doSomethingAfterStartup() {
+	// 	System.out.println("Run after startup..");
+	// }
+
 	@Override
-	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-		return builder.sources(SelfSurveyApplication.class);
-	}
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+		String catalinaBase = System.getProperty("catalina.home");
+		try {
+			String configRaw = Files.readString(new File(catalinaBase + "/config/selfsurveybe.json").toPath());
+			Gson gson = new Gson();
+			Config config = gson.fromJson(configRaw, Config.class);
+			username = config.getUsername();
+			password = config.getPassword();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        return application.sources(SelfSurveyApplication.class);
+    }
 
 }
