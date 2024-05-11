@@ -27,8 +27,9 @@ public class WebSecurityConfig {
 		System.out.println("security");
 		http
 			.authorizeHttpRequests((requests) -> requests
-				.antMatchers("/", "/home").permitAll()
-				.anyRequest().authenticated()
+				.antMatchers("/survey/**", "/surveyresponse/**").authenticated()
+				.antMatchers("/login").permitAll()
+				.anyRequest().permitAll()
 			)
 			.cors().and()
 			.csrf().disable()
