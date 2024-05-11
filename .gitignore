@@ -3,4 +3,4 @@ selfsurvey.db
 src/test/net/cookiejar
 .vscode
 test.sh
-src/main/resources/**
+src/main/resources/static/**
