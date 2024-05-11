@@ -22,6 +22,7 @@ public class SelfSurveyApplication extends SpringBootServletInitializer {
 
 	public static String username = "";
 	public static String password = "";
+	public static String domain = "";
 
 	public static void main(String[] args) throws Throwable {
 

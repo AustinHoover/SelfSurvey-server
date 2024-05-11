@@ -15,7 +15,6 @@ import org.studiorailgun.dtos.survey.QuestionRepository;
 import org.studiorailgun.dtos.survey.Survey;
 import org.studiorailgun.dtos.survey.SurveyRepository;
 
-// @CrossOrigin(origins = "http://localhost:8000")
 @Controller
 public class SurveyController {
 
