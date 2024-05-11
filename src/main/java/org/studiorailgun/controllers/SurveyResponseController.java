@@ -1,6 +1,7 @@
 package org.studiorailgun.controllers;
 
 import java.time.Instant;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -92,6 +93,47 @@ public class SurveyResponseController {
         //     throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Response " + responseId + " not found");
         // });
         return value.getId() + "";
+    }
+
+    @PostMapping("/surveyresponse/value/addall/{responseId}")
+    @ResponseBody
+    public String addAllValues(@PathVariable("responseId") int responseId, @RequestBody List<ResponseValue> values) {
+        // try {
+		// 	responseValueService.queueResponseValue(value, responseId);
+		// } catch (Exception e) {
+		// 	throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Response " + e.getMessage() + " not found");
+		// }
+        for(ResponseValue value : values){
+            ResponseValue newValue = responseValuesRepository.save(value);
+            responseRepository.findById(responseId).ifPresentOrElse(
+            (response) -> {
+                try {
+                    newValue.setResponse(response);
+                    response.addResponseValue(newValue);
+                    responseRepository.save(response);
+                    responseValuesRepository.save(newValue);
+                } catch (Exception ex){
+                    ex.printStackTrace();
+                }
+                // System.out.println(newValue.getResponse().getId() + "~");
+            }, 
+            () -> {
+                System.out.println(responseId + " not found");
+            });
+        }
+        // ResponseValue newValue = responseValuesRepository.save(value);
+        //  //add value to response and save if found, else throw 404
+        // responseRepository.findById(responseId).ifPresentOrElse(
+        // (response) -> {
+        //     newValue.setResponse(response);
+        //     responseRepository.save(response);
+        //     response.addResponseValue(newValue);
+        //     responseValuesRepository.save(newValue);
+        // }, 
+        // () -> {
+        //     throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Response " + responseId + " not found");
+        // });
+        return "success!";
     }
 
     @GetMapping("/surveyresponse/value/remove/{responseId}/{valueId}")

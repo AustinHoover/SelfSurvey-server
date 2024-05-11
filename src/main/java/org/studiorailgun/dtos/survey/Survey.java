@@ -35,5 +35,13 @@ public class Survey {
     public void addQuestion(Question newQuestion){
         questions.add(newQuestion);
     }
+
+    /**
+     * Sets the name
+     * @param name the name
+     */
+    public void setName(String name){
+        this.name = name;
+    }
     
 }

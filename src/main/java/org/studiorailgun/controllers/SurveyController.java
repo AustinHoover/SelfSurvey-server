@@ -3,6 +3,7 @@ package org.studiorailgun.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +15,7 @@ import org.studiorailgun.dtos.survey.QuestionRepository;
 import org.studiorailgun.dtos.survey.Survey;
 import org.studiorailgun.dtos.survey.SurveyRepository;
 
+// @CrossOrigin(origins = "http://localhost:8000")
 @Controller
 public class SurveyController {
 
@@ -26,7 +28,9 @@ public class SurveyController {
     @GetMapping("/survey/add")
     @ResponseBody
     public String add() {
-        Survey rVal = surveyRepository.save(new Survey());
+        Survey newSurvey = new Survey();
+        newSurvey.setName("A new survey");
+        Survey rVal = surveyRepository.save(newSurvey);
         return rVal.getId() + "";
     }
 
@@ -65,6 +69,15 @@ public class SurveyController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Survey " + surveyId + " not found");
         });
         return question.getId() + "";
+    }
+
+    @PostMapping("/survey/updateQuestion/{surveyId}/{questionId}")
+    @ResponseBody
+    public String addQuestion(@PathVariable("surveyId") int surveyId, @PathVariable("questionId") int questionId, @RequestBody Question question) {
+        Question foundQuestion = questionRepository.findById(questionId).get();
+        foundQuestion.setPrompt(question.getPrompt());
+        Question updatedQuestion = questionRepository.save(foundQuestion);
+        return updatedQuestion.getId() + "";
     }
 
     @GetMapping("/survey/removeQuestion/{surveyId}/{questionId}")

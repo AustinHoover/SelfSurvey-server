@@ -11,7 +11,7 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Question {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     int id;
 
     static final int TYPE_TRUE_FALSE = 0;
@@ -44,6 +44,14 @@ public class Question {
 
     public String getPrompt(){
         return prompt;
+    }
+
+    /**
+     * Sets the prompt of the question
+     * @param prompt the prompt
+     */
+    public void setPrompt(String prompt){
+        this.prompt = prompt;
     }
 
     public int getId(){

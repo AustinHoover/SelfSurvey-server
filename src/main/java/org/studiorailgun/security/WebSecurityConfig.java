@@ -1,7 +1,10 @@
 package org.studiorailgun.security;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.lang.Nullable;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -11,6 +14,8 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
 import org.studiorailgun.SelfSurveyApplication;
 
 @Configuration
@@ -19,11 +24,13 @@ public class WebSecurityConfig {
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+		System.out.println("security");
 		http
 			.authorizeHttpRequests((requests) -> requests
 				.antMatchers("/", "/home").permitAll()
 				.anyRequest().authenticated()
 			)
+			.cors().and()
 			.csrf().disable()
 			.formLogin().disable()
 			.httpBasic().authenticationEntryPoint(authenticationEntryPoint());

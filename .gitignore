@@ -2,3 +2,5 @@ target
 selfsurvey.db
 src/test/net/cookiejar
 .vscode
+test.sh
+src/main/resources/**
