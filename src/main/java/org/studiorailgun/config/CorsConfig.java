@@ -11,6 +11,7 @@ public class CorsConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         System.out.println(":D 3");
+        System.out.println("Allowing: " + SelfSurveyApplication.domain);
         registry.addMapping("/**")
         // .allowedMethods("GET", "POST", "PUT", "DELETE")
         .allowedOrigins("http://localhost:8000","http://localhost:8080", SelfSurveyApplication.domain)

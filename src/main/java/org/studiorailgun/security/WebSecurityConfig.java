@@ -32,7 +32,7 @@ public class WebSecurityConfig {
 				.anyRequest().permitAll()
 			)
 			.cors().and()
-			.csrf().disable()
+			.csrf().disable() // ONLY DISABLE THIS IF IT'S AN API WITHOUT A FRONTEND -- IF THERE IS A FRONTEND THIS WILL CAUSE IT TO BREAK
 			.formLogin().disable()
 			.httpBasic().authenticationEntryPoint(authenticationEntryPoint());
 

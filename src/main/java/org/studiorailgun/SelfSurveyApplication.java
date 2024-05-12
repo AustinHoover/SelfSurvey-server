@@ -44,6 +44,7 @@ public class SelfSurveyApplication extends SpringBootServletInitializer {
 			Config config = gson.fromJson(configRaw, Config.class);
 			username = config.getUsername();
 			password = config.getPassword();
+			domain = config.getDomain();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
